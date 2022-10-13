@@ -48,7 +48,7 @@ public class ProjectConfig {
 
         http.authorizeRequests()
                 .anyRequest()
-                .permitAll();
+                .hasAuthority(WRITE);
 
         return http.build();
     }
