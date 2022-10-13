@@ -15,6 +15,7 @@ public class ProjectConfig {
 
     public static final String READ = "READ";
     public static final String WRITE = "WRITE";
+    public static final String DELETE = "DELETE";
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -28,7 +29,7 @@ public class ProjectConfig {
 
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .authorities(WRITE)
+                .authorities(READ, WRITE, DELETE)
                 .build();
 
         manage.createUser(user1);
@@ -46,9 +47,12 @@ public class ProjectConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
 
-        http.authorizeRequests()
-                .anyRequest()
-                .hasAuthority(WRITE);
+        String express = "hasAuthority('READ') and !hasAuthority('DELETE')";
+
+        http.authorizeRequests(
+                (auth) -> auth.anyRequest().access(express)
+        );
+
 
         return http.build();
     }
