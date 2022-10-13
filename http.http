@@ -1,0 +1,7 @@
+GET http://localhost:8080/hello
+Authorization: Basic john 12345
+###
+
+GET http://localhost:8080/hello
+Authorization: Basic jane 12345
+###
