@@ -23,13 +23,13 @@ public class ProjectConfig {
 
         var user1 = User.withUsername("john")
                 .password("12345")
-                .authorities(READ)
+                .authorities("ROLE_ADMIN")
                 .build();
 
 
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .authorities(READ, WRITE, DELETE)
+                .authorities("ROLE_MANAGER")
                 .build();
 
         manage.createUser(user1);
@@ -47,10 +47,8 @@ public class ProjectConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
 
-        String express = "hasAuthority('READ') and !hasAuthority('DELETE')";
-
         http.authorizeRequests(
-                (auth) -> auth.anyRequest().access(express)
+                (auth) -> auth.anyRequest().hasRole("ADMIN")
         );
 
 
