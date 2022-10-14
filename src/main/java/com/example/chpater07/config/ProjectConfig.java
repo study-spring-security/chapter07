@@ -48,7 +48,7 @@ public class ProjectConfig {
         http.httpBasic();
 
         http.authorizeRequests(
-                (auth) -> auth.anyRequest().hasRole("ADMIN")
+                (auth) -> auth.anyRequest().denyAll()
         );
 
 
