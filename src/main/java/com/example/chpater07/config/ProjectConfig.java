@@ -1,6 +1,7 @@
 package com.example.chpater07.config;
 
 import com.example.chpater07.filter.AuthenticationLoggingFilter;
+import com.example.chpater07.filter.CsrfTokenLogger;
 import com.example.chpater07.filter.RequestValidationFilter;
 import com.example.chpater07.filter.StaticKeyAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -52,15 +54,26 @@ public class ProjectConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterAt(
-                        filter,
-                        BasicAuthenticationFilter.class
-                )
+
+        http.addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
                 .authorizeRequests()
                 .anyRequest()
                 .permitAll();
 
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.addFilterAt(
+//                        filter,
+//                        BasicAuthenticationFilter.class
+//                )
+//                .authorizeRequests()
+//                .anyRequest()
+//                .permitAll();
+//
+//        return http.build();
+//    }
 
 }
