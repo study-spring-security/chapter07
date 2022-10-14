@@ -51,10 +51,10 @@ public class ProjectConfig {
         http.authorizeRequests(
                 (auth) ->
                         auth
-                                .mvcMatchers("/a/b/**")
-                                .authenticated()
-                                .anyRequest()
+                                .mvcMatchers("/product/{code:^[0-9]*$}")
                                 .permitAll()
+                                .anyRequest()
+                                .denyAll()
         );
 
 
