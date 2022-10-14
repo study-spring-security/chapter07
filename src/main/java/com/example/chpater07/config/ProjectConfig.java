@@ -14,9 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class ProjectConfig {
 
-
-    public static final String ADMIN = "ADMIN";
-    public static final String MANAGER = "MANAGER";
+    public static final String READ = "READ";
+    public static final String PREMIUM = "PREMIUM";
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -24,13 +23,13 @@ public class ProjectConfig {
 
         var user1 = User.withUsername("john")
                 .password("12345")
-                .roles(ADMIN)
+                .roles(READ)
                 .build();
 
 
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .roles(MANAGER)
+                .roles(READ, PREMIUM)
                 .build();
 
         manage.createUser(user1);
@@ -51,10 +50,10 @@ public class ProjectConfig {
         http.authorizeRequests(
                 (auth) ->
                         auth
-                                .mvcMatchers("/email/{email:.*(.+@.+\\.com)}")
-                                .permitAll()
+                                .regexMatchers(".*/(us|uk|ca)+/(en|fr).*")
+                                .authenticated()
                                 .anyRequest()
-                                .denyAll()
+                                .hasAuthority(PREMIUM)
         );
 
 
