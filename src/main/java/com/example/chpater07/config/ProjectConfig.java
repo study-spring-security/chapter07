@@ -13,9 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class ProjectConfig {
 
-    public static final String READ = "READ";
-    public static final String WRITE = "WRITE";
-    public static final String DELETE = "DELETE";
+
+    public static final String ADMIN = "ADMIN";
+    public static final String MANAGER = "MANAGER";
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -23,13 +23,13 @@ public class ProjectConfig {
 
         var user1 = User.withUsername("john")
                 .password("12345")
-                .authorities("ROLE_ADMIN")
+                .roles(ADMIN)
                 .build();
 
 
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .authorities("ROLE_MANAGER")
+                .roles(MANAGER)
                 .build();
 
         manage.createUser(user1);
