@@ -2,6 +2,7 @@ package com.example.chpater07.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,12 +51,16 @@ public class ProjectConfig {
         http.authorizeRequests(
                 (auth) ->
                         auth
-                                .mvcMatchers("/hello").hasRole(ADMIN)
-                                .mvcMatchers("/caio").hasRole(MANAGER)
+                                .mvcMatchers(HttpMethod.GET, "/a")
+                                    .authenticated()
+                                .mvcMatchers(HttpMethod.POST, "/a")
+                                    .permitAll()
                                 .anyRequest()
-                                .permitAll() // permitAll 메서드는 나머지 모든 엔드포인트에 대한 모든 요청을 허용
+                                    .denyAll()
         );
 
+
+        http.csrf().disable();
 
         return http.build();
     }
