@@ -1,5 +1,6 @@
 package com.example.chpater07.config;
 
+import com.example.chpater07.filter.RequestValidationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class ProjectConfig {
@@ -45,19 +47,13 @@ public class ProjectConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.httpBasic();
-
-        http.authorizeRequests(
-                (auth) ->
-                        auth
-                                .regexMatchers(".*/(us|uk|ca)+/(en|fr).*")
-                                .authenticated()
-                                .anyRequest()
-                                .hasAuthority(PREMIUM)
-        );
-
-
-        http.csrf().disable();
+        http.addFilterBefore(
+                        new RequestValidationFilter(),
+                        BasicAuthenticationFilter.class
+                )
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll();
 
         return http.build();
     }

@@ -26,4 +26,9 @@ public class HelloController {
     public String getEndpointC(){
         return "Works!";
     }
+
+    @GetMapping("/hello")
+    public String hello(){
+        return "hello";
+    }
 }
