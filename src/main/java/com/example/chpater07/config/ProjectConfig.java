@@ -52,6 +52,8 @@ public class ProjectConfig {
                         auth
                                 .mvcMatchers("/hello").hasRole(ADMIN)
                                 .mvcMatchers("/caio").hasRole(MANAGER)
+                                .anyRequest()
+                                .permitAll() // permitAll 메서드는 나머지 모든 엔드포인트에 대한 모든 요청을 허용
         );
 
 
