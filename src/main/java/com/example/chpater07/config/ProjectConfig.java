@@ -51,12 +51,10 @@ public class ProjectConfig {
         http.authorizeRequests(
                 (auth) ->
                         auth
-                                .mvcMatchers(HttpMethod.GET, "/a")
-                                    .authenticated()
-                                .mvcMatchers(HttpMethod.POST, "/a")
-                                    .permitAll()
+                                .mvcMatchers("/a/b/**")
+                                .authenticated()
                                 .anyRequest()
-                                    .denyAll()
+                                .permitAll()
         );
 
 
