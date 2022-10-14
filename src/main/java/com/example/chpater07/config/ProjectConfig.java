@@ -48,7 +48,10 @@ public class ProjectConfig {
         http.httpBasic();
 
         http.authorizeRequests(
-                (auth) -> auth.anyRequest().denyAll()
+                (auth) ->
+                        auth
+                                .mvcMatchers("/hello").hasRole(ADMIN)
+                                .mvcMatchers("/caio").hasRole(MANAGER)
         );
 
 
