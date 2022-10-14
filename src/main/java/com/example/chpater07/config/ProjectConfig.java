@@ -51,7 +51,7 @@ public class ProjectConfig {
         http.authorizeRequests(
                 (auth) ->
                         auth
-                                .mvcMatchers("/product/{code:^[0-9]*$}")
+                                .mvcMatchers("/email/{email:.*(.+@.+\\.com)}")
                                 .permitAll()
                                 .anyRequest()
                                 .denyAll()
