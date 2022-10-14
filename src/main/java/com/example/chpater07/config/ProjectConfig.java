@@ -1,5 +1,6 @@
 package com.example.chpater07.config;
 
+import com.example.chpater07.filter.AuthenticationLoggingFilter;
 import com.example.chpater07.filter.RequestValidationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,10 @@ public class ProjectConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(
                         new RequestValidationFilter(),
+                        BasicAuthenticationFilter.class
+                )
+                .addFilterBefore(
+                        new AuthenticationLoggingFilter(),
                         BasicAuthenticationFilter.class
                 )
                 .authorizeRequests()
